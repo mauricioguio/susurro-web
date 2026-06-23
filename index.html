@@ -3,105 +3,321 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Política de Privacidad – Susurro</title>
+  <title>Susurro – Confiesa Anónimo</title>
+  <meta name="description" content="La app de confesiones anónimas. Confiesa, escucha y conecta sin revelar quién eres." />
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 40px 24px 80px;
-      color: #1a1a1a;
-      line-height: 1.7;
-      font-size: 16px;
+      background: #080808;
+      color: #fff;
+      overflow-x: hidden;
     }
-    h1 { font-size: 28px; margin-bottom: 4px; }
-    h2 { font-size: 18px; margin-top: 36px; color: #111; }
-    p, li { color: #333; }
-    ul { padding-left: 20px; }
-    .updated { color: #888; font-size: 14px; margin-bottom: 32px; }
-    a { color: #3b5bdb; }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(8,8,8,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .nav-logo { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .glow-1 { width: 600px; height: 600px; background: rgba(20,50,220,0.35); bottom: -100px; left: -150px; }
+    .glow-2 { width: 500px; height: 500px; background: rgba(80,10,200,0.28); bottom: -80px; right: -120px; }
+    .glow-3 { width: 400px; height: 400px; background: rgba(0,60,190,0.22); bottom: 100px; left: 50%; transform: translateX(-50%); }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 80px);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: rgba(255,255,255,0.5);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    .cta-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .btn-primary {
+      display: flex; align-items: center; gap: 10px;
+      background: #fff; color: #080808;
+      padding: 14px 28px; border-radius: 14px;
+      font-weight: 700; font-size: 15px;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,255,255,0.15); }
+    .btn-secondary {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      padding: 14px 28px; border-radius: 14px;
+      font-weight: 600; font-size: 15px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+
+    /* FEATURES */
+    .features {
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(110,142,251,0.8);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      text-align: center;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 60px;
+      color: #fff;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 32px;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: rgba(110,142,251,0.4); }
+    .feature-icon { font-size: 32px; margin-bottom: 16px; }
+    .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .feature-card p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* HOW IT WORKS */
+    .how {
+      padding: 100px 24px;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .how-inner { max-width: 800px; margin: 0 auto; }
+    .steps { display: flex; flex-direction: column; gap: 32px; margin-top: 20px; }
+    .step { display: flex; gap: 24px; align-items: flex-start; }
+    .step-num {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 16px; flex-shrink: 0;
+    }
+    .step-text h4 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .step-text p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+    /* CTA BOTTOM */
+    .cta-bottom {
+      padding: 100px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-bottom h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+    .cta-bottom p { font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 36px; }
+
+    /* FOOTER */
+    footer {
+      padding: 32px 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer p { font-size: 13px; color: rgba(255,255,255,0.3); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: rgba(255,255,255,0.7); }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .nav-links { gap: 16px; }
+      footer { flex-direction: column; text-align: center; }
+    }
   </style>
 </head>
 <body>
 
-  <h1>Política de Privacidad</h1>
-  <p class="updated">Última actualización: 22 de junio de 2025</p>
+  <nav>
+    <div class="nav-logo">susurro</div>
+    <div class="nav-links">
+      <a href="#features">Funciones</a>
+      <a href="#como">Cómo funciona</a>
+      <a href="/privacidad">Privacidad</a>
+    </div>
+  </nav>
 
-  <p>
-    Susurro ("la app", "nosotros") es una aplicación de confesiones anónimas disponible en Android.
-    Esta política explica qué información recopilamos, cómo la usamos y los derechos que tienes sobre ella.
-  </p>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow glow-1"></div>
+    <div class="hero-glow glow-2"></div>
+    <div class="hero-glow glow-3"></div>
 
-  <h2>1. Información que recopilamos</h2>
-  <ul>
-    <li><strong>Correo electrónico:</strong> al registrarte, usamos tu correo únicamente para autenticar tu cuenta. Nunca aparece en la app ni es visible para otros usuarios.</li>
-    <li><strong>Alias:</strong> el nombre de usuario que eliges al registrarte. Es el único identificador visible en la app.</li>
-    <li><strong>Confesiones y comentarios:</strong> el texto que escribes o los audios que grabas y publicas voluntariamente.</li>
-    <li><strong>Notas de voz:</strong> los audios se almacenan en servidores seguros en la nube (Cloudflare R2). No realizamos ningún procesamiento de voz ni identificación del hablante.</li>
-    <li><strong>Foto de perfil (opcional):</strong> si decides agregar una foto, se almacena en nuestra base de datos de forma privada.</li>
-  </ul>
+    <div class="hero-badge">🤫 Ya disponible en Android</div>
+    <h1>Dilo sin<br/><span>revelar quién eres</span></h1>
+    <p>Susurro es el espacio donde puedes confesar lo que cargas — sin nombre, sin foto, sin juicios.</p>
+    <div class="cta-group">
+      <a href="https://play.google.com/store/apps/details?id=com.susurro.app" class="btn-primary" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.24.98.2l13.06-11.95L13.65 8.5 3.18 23.76zM20.7 10.56l-2.8-1.6-3.47 3.17 3.47 3.18 2.82-1.62c.8-.46.8-1.67-.02-2.13zM3 1.1C2.7 1.47 2.54 1.96 2.54 2.56v18.89c0 .6.16 1.09.47 1.46l.08.07L15.2 12l-.08-.07L3 1.1zM4.16.24l13.06 7.53-3.47 3.17L4.16.24z"/></svg>
+        Descargar en Google Play
+      </a>
+      <a href="#features" class="btn-secondary">Ver funciones →</a>
+    </div>
+  </section>
 
-  <h2>2. Información que NO recopilamos</h2>
-  <ul>
-    <li>No recopilamos tu nombre real.</li>
-    <li>No accedemos a tus contactos, ubicación, ni ningún otro dato del dispositivo.</li>
-    <li>No usamos cookies de rastreo ni publicidad dirigida.</li>
-    <li>No vendemos tu información a terceros.</li>
-  </ul>
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <p class="section-label">Funciones</p>
+    <h2 class="section-title">Todo lo que necesitas<br/>para confesar sin miedo</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🤫</div>
+        <h3>Anonimato total</h3>
+        <p>Tu nombre, correo y datos personales nunca aparecen en la app. Solo existes como tu alias.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎙️</div>
+        <h3>Voz anónima</h3>
+        <p>Graba hasta 15 segundos de audio. Tu nota de voz se publica sin metadatos que puedan identificarte.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <h3>Confesiones encadenadas</h3>
+        <p>Responde a una confesión con la tuya propia. Las conversaciones se encadenan manteniendo el anonimato.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Reacciones y comentarios</h3>
+        <p>Reacciona con emojis, comenta de forma anónima o guarda las confesiones que más te impactan.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Privacidad real</h3>
+        <p>Puedes eliminar tu cuenta y todas tus confesiones en cualquier momento desde la app.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌎</div>
+        <h3>Para el mundo hispano</h3>
+        <p>Hecha para personas que piensan, sienten y confiesan en español. Desde México hasta España.</p>
+      </div>
+    </div>
+  </section>
 
-  <h2>3. Cómo usamos tu información</h2>
-  <ul>
-    <li>Para autenticar tu cuenta y permitirte iniciar sesión.</li>
-    <li>Para mostrar tu contenido (confesiones y comentarios) a otros usuarios de forma anónima.</li>
-    <li>Para enviarte notificaciones relacionadas con la actividad en tus confesiones (reacciones, comentarios).</li>
-    <li>Para moderar el contenido y mantener la seguridad de la comunidad.</li>
-  </ul>
+  <!-- HOW IT WORKS -->
+  <section class="how" id="como">
+    <div class="how-inner">
+      <p class="section-label">Cómo funciona</p>
+      <h2 class="section-title">Simple y anónimo</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <h4>Crea tu cuenta con un alias</h4>
+            <p>Solo necesitas un correo y elegir un alias. Nadie sabrá tu nombre real ni verá tu correo en la app.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <h4>Confiesa lo que quieras</h4>
+            <p>Escribe un texto o graba una nota de voz de hasta 15 segundos. Elige etiquetas y decide cuánto tiempo estará visible.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <h4>Conecta con la comunidad</h4>
+            <p>Lee confesiones de otros, reacciona, comenta y encadena tus propias confesiones. Todo de forma anónima.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <h2>4. Terceros y servicios externos</h2>
-  <ul>
-    <li><strong>Cloudflare R2:</strong> almacenamiento de archivos de audio. Cloudflare procesa los archivos según su propia política de privacidad.</li>
-    <li><strong>Railway / Neon:</strong> infraestructura de servidores y base de datos donde se almacenan los datos de la app.</li>
-    <li><strong>Expo / EAS:</strong> plataforma de distribución de la app móvil.</li>
-  </ul>
+  <!-- CTA BOTTOM -->
+  <section class="cta-bottom">
+    <div class="hero-glow glow-1" style="opacity:0.5"></div>
+    <div class="hero-glow glow-2" style="opacity:0.5"></div>
+    <h2>A veces necesitas decirlo.<br/>Susúrralo.</h2>
+    <p>Únete a la comunidad de confesiones anónimas en español.</p>
+    <a href="https://play.google.com/store/apps/details?id=com.susurro.app" class="btn-primary" target="_blank" style="display:inline-flex">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.24.98.2l13.06-11.95L13.65 8.5 3.18 23.76zM20.7 10.56l-2.8-1.6-3.47 3.17 3.47 3.18 2.82-1.62c.8-.46.8-1.67-.02-2.13zM3 1.1C2.7 1.47 2.54 1.96 2.54 2.56v18.89c0 .6.16 1.09.47 1.46l.08.07L15.2 12l-.08-.07L3 1.1zM4.16.24l13.06 7.53-3.47 3.17L4.16.24z"/></svg>
+      Descargar gratis en Google Play
+    </a>
+  </section>
 
-  <h2>5. Retención de datos</h2>
-  <p>
-    Conservamos tu información mientras tu cuenta esté activa. Puedes eliminar tu cuenta en cualquier momento
-    desde la app (Perfil → Eliminar cuenta). Al hacerlo, se borran permanentemente tu alias, tu correo y
-    todas tus confesiones de nuestros servidores.
-  </p>
-
-  <h2>6. Seguridad</h2>
-  <p>
-    Las contraseñas se almacenan de forma cifrada (hashing con bcrypt). Las comunicaciones entre la app y
-    los servidores se realizan mediante HTTPS. Tomamos medidas razonables para proteger tu información,
-    aunque ningún sistema es completamente infalible.
-  </p>
-
-  <h2>7. Menores de edad</h2>
-  <p>
-    Susurro no está dirigida a menores de 18 años. Si tienes conocimiento de que un menor ha creado una
-    cuenta, contáctanos para eliminarla.
-  </p>
-
-  <h2>8. Tus derechos</h2>
-  <ul>
-    <li>Acceder a la información que tenemos sobre ti.</li>
-    <li>Solicitar la corrección de datos incorrectos.</li>
-    <li>Eliminar tu cuenta y todos tus datos desde la app en cualquier momento.</li>
-  </ul>
-
-  <h2>9. Cambios a esta política</h2>
-  <p>
-    Si realizamos cambios importantes a esta política, lo notificaremos dentro de la app. El uso continuado
-    de Susurro después de los cambios implica tu aceptación.
-  </p>
-
-  <h2>10. Contacto</h2>
-  <p>
-    Si tienes preguntas sobre esta política de privacidad, escríbenos a:
-    <a href="mailto:mauricio_.17@hotmail.com">susurroapp01@gmail.com</a>
-  </p>
+  <footer>
+    <p>© 2025 Susurro. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="/privacidad">Política de privacidad</a>
+      <a href="/terminos">Términos y condiciones</a>
+      <a href="mailto:susurroapp01@gmail.com">Contacto</a>
+    </div>
+  </footer>
 
 </body>
 </html>
